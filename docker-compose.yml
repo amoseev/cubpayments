@@ -2,15 +2,21 @@ version: '2'
 
 services:
   php-fpm:
-    build: ./docker/images/php-fpm
-    container_name: payment.php
+    container_name: payment.php-fpm
+    build:
+      context: ./docker/images/php-fpm
+      args:
+          TIMEZONE: UTC
+          XDEBUG_IP_ADDRESS: ${XDEBUG_IP_ADDRESS}
+          PHP_ERROR_LOG_FILE: ${PHP_ERROR_LOG_FILE}
     expose:
       - 9000
     volumes:
       - ./docker/images/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
-      - ./docker/images/php-fpm/php.ini:/usr/local/etc/php/php.ini
       - ./app:/var/www/payment
-  
+      - ./logs/php:/var/log/php
+      - ./logs/payment:/var/log/payment
+
   nginx:
     build: ./docker/images/nginx
     container_name: payment.nginx
