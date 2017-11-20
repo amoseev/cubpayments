@@ -13,9 +13,9 @@ services:
       - 9000
     volumes:
       - ./docker/images/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
-      - ./app:/var/www/payment
-      - ./logs/php:/var/log/php
-      - ./logs/payment:/var/log/payment
+      - ./app:/var/www/payment:rw
+      - ./logs/php:/var/log/php:rw
+      - ./logs/payment:/var/log/payment:rw
 
   nginx:
     build: ./docker/images/nginx

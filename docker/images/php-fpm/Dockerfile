@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y \
 
 # Set timezone
 ARG TIMEZONE
-
-RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo $TZ > /etc/timezone \
+#//todo починить для web
+RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone \
     && apt-get install -f -y --reinstall locales && locale-gen en_US.UTF-8
 RUN printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini
 RUN "date"
