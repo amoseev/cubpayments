@@ -1,8 +1,30 @@
 version: '2'
 
+
 services:
+  db:
+      build:
+        context: ./docker/images/percona
+      container_name: payment.db
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      volumes:
+        - ./data/db:/var/lib/mysql
+      ports:
+        - 3306:3306
+      expose:
+        - 3306
+      networks:
+        - backend
+
   php-fpm:
+    user: www-data
     container_name: payment.php-fpm
+    env_file:
+      - payment.env
     build:
       context: ./docker/images/php-fpm
       args:
@@ -13,9 +35,13 @@ services:
       - 9000
     volumes:
       - ./docker/images/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
-      - ./app:/var/www/payment:rw
+      - ./workspace:/var/www/payment:rw
       - ./logs/php:/var/log/php:rw
       - ./logs/payment:/var/log/payment:rw
+    networks:
+      - backend
+    links:
+    - db:host.payment.db
 
   nginx:
     build: ./docker/images/nginx
@@ -28,3 +54,15 @@ services:
       - php-fpm
     volumes:
       - ./logs/nginx:/var/log/nginx/payment:rw
+    networks:
+      - backend
+
+### Networks Setup ############################################
+
+networks:
+  backend:
+    driver: "bridge"
+
+volumes:
+  mysql:
+    driver: "local"

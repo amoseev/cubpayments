@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev  \
     libicu-dev \
     mysql-client \
+    telnet \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install iconv \
     && docker-php-ext-install mcrypt \
@@ -45,6 +46,15 @@ RUN echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-x
 
 
 ##############
+
+
+RUN mkdir -p /var/www/.composer
+RUN chown -R www-data:www-data /var/www/.composer
+
+
+#don works for VOLUMES, after bind directory owner is root
+#RUN mkdir -p /var/log/php
+#RUN chown -R www-data:www-data /var/log/php
 
 CMD ["php-fpm"]
 
