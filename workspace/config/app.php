@@ -171,16 +171,16 @@ return [
         /*
          * Application Service Providers...
          */
-        \Core\Providers\AppServiceProvider::class,
-        \Auth\Providers\AuthServiceProvider::class,
+        \Application\Providers\AppServiceProvider::class,
+       // \Auth\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        \Core\Providers\EventServiceProvider::class,
-        \Core\Providers\RouteServiceProvider::class,
+        \Application\Providers\EventServiceProvider::class,
+        \Application\Providers\RouteServiceProvider::class,
 
 
 
 
-        \Currency\Providers\CurrencyRouteServiceProvider::class,
+        \Application\Modules\Currency\Providers\CurrencyServiceProvider::class,
     ],
 
     /*
