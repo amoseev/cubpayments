@@ -30,6 +30,7 @@ class MerchantController extends Controller
 
     public function create(Request $request) : Response
     {
+        $merchants = $this->merchantService->getAllMerchants();
         $this->merchantService->createMerchant(str_random(16));
         $merchants = $this->merchantService->getAllMerchants();
         dd($merchants);
