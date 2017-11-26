@@ -106,6 +106,7 @@ return [
             'namespaces' => [],
             'paths' => [
                 base_path('app/Domain/Merchants/Entity'),
+                base_path('app/Domain/MerchantsPaymentsAccounts/Entity'),
             ],
             'repository' => Doctrine\ORM\EntityRepository::class,
             'proxies' => [

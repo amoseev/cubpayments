@@ -48,7 +48,7 @@ abstract class AbstractRepository
 
     /**
      * @param mixed $id
-     * @return object The entity instance
+     * @return mixed|object
      * @throws ModelNotFoundException
      */
     public function get($id, $lockMode = null, $lockVersion = null)
