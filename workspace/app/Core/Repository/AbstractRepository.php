@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core\Repository;
 
 
+use Core\Exception\ModelNotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Repository\DefaultRepositoryFactory;
 
@@ -36,5 +37,20 @@ abstract class AbstractRepository
     public function findAll()
     {
         return $this->entityRepository->findAll();
+    }
+
+    /**
+     * @param mixed $id
+     * @return object The entity instance
+     * @throws ModelNotFoundException
+     */
+    public function get($id, $lockMode = null, $lockVersion = null)
+    {
+        $entity = $this->find($id, $lockMode, $lockVersion);
+        if (! $entity) {
+            throw ModelNotFoundException::forClassId($this->getEntity(), $id);
+        }
+
+        return $entity;
     }
 }
