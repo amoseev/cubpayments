@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="currency")
+ * @ORM\Table(name="currency", schema="currency")
  */
 class Currency implements CurrencyInterface
 {

@@ -8,8 +8,7 @@ use Domain\Merchants\Interfaces\MerchantInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="merchant")
- * @ORM\Embedded
+ * @ORM\Table(name="merchant", schema="merchants")
  */
 class Merchant implements MerchantInterface
 {
@@ -30,9 +29,9 @@ class Merchant implements MerchantInterface
     protected $title;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean")
      */
     protected $isEnabled;
 
@@ -40,7 +39,7 @@ class Merchant implements MerchantInterface
     public function __construct(string $title, bool $isEnabled = true)
     {
         $this->title = $title;
-        $this->isEnabled = (int) $isEnabled;
+        $this->isEnabled = $isEnabled;
     }
 
 

@@ -179,8 +179,11 @@ return [
 
 
 
-
+        /*
+         * Modules Service Providers...
+         */
         \Application\Modules\Currency\Providers\CurrencyServiceProvider::class,
+        \Application\Modules\Currency\Providers\MerchantsServiceProvider::class,
     ],
 
     /*

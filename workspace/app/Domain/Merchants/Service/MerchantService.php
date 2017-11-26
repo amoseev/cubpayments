@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace Domain\Merchants\Service;
 
-use Core\EntityManager\EntityManagerResolver;
 use Domain\Merchants\Entity\Merchant;
 use Domain\Merchants\Interfaces\MerchantInterface;
 use Domain\Merchants\Repository\MerchantRepository;
+use Infrastructure\EntityManager\EntityManagerResolver;
+use Infrastructure\Exception\ModelNotFoundException;
 
 class MerchantService
 {
@@ -29,13 +30,25 @@ class MerchantService
     /**
      * @param int $id
      * @return MerchantInterface|object
-     * @throws \Core\Exception\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function getMerchantById(int $id): MerchantInterface
     {
         return $this->merchantRepository->get($id);
     }
 
+    /**
+     * @return MerchantInterface[]|object[]
+     */
+    public function getAllMerchants(): array
+    {
+        return $this->merchantRepository->findAll();
+    }
+
+    /**
+     * @param string $title
+     * @return MerchantInterface
+     */
     public function createMerchant(string $title): MerchantInterface
     {
         $merchant = new Merchant($title);
@@ -43,7 +56,7 @@ class MerchantService
         $em = $this->emResolver->getEntityManager($merchant);
 
         $em->persist($merchant);
-        $em->flush();
+        $em->flush($merchant);
 
         return $merchant;
     }
