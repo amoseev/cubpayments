@@ -4,6 +4,8 @@ docker-compose up --build -d --force-recreate
 
 docker  exec -it -u root payment.nginx chown -R www-data:www-data /var/log/nginx
 
+docker  exec -it -u root payment.php-fpm chown -R www-data:www-data /var/www/payment
+
 docker  exec -it -u root payment.php-fpm mkdir -p /var/log/payment
 docker  exec -it -u root payment.php-fpm chown -R www-data:www-data /var/log/payment
 docker  exec -it -u root payment.php-fpm mkdir -p /var/log/php
