@@ -14,6 +14,7 @@ class Version20171126174400 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('CREATE DATABASE IF NOT EXISTS dbpayment;');
         $this->addSql('CREATE DATABASE IF NOT EXISTS currency;');
         $this->addSql('CREATE DATABASE IF NOT EXISTS merchants;');
     }
