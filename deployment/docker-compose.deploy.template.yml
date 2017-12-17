@@ -1,0 +1,68 @@
+version: '2'
+
+services:
+  db:
+      build:
+        context: <cub_dir>/docker/images/mysql57
+      container_name: payment.db.<build>
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      volumes:
+        - <cub_dir>/data/db:/var/lib/mysql
+      ports:
+        - 3306:3306
+      expose:
+        - 3306
+      networks:
+        - backend
+
+  php-fpm:
+    user: www-data
+    container_name: payment.php-fpm.<build>
+    env_file:
+      - <build_dir>/payment.env.deploy.<build>
+    build:
+      context: <cub_dir>/docker/images/php-fpm
+      args:
+          TIMEZONE: UTC
+          XDEBUG_IP_ADDRESS: ${XDEBUG_IP_ADDRESS}
+          PHP_ERROR_LOG_FILE: ${PHP_ERROR_LOG_FILE}
+    expose:
+      - 9000
+    volumes:
+      - <cub_dir>/docker/images/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - <cub_dir>/workspace:/var/www/payment:rw
+      - <cub_dir>/logs/php:/var/log/php:rw
+      - <cub_dir>/logs/payment:/var/log/payment:rw
+    networks:
+      - backend
+    links:
+    - db:host.payment.db
+
+  nginx:
+    build: <cub_dir>/docker/images/nginx
+    container_name: payment.nginx.<build>
+    links:
+      - php-fpm
+    ports:
+      - 80:80
+      - 443:443
+    volumes_from:
+      - php-fpm
+    volumes:
+      - <cub_dir>/logs/nginx:/var/log/nginx/payment:rw
+    networks:
+      - backend
+
+### Networks Setup ############################################
+
+networks:
+  backend:
+    driver: "bridge"
+
+volumes:
+  mysql:
+    driver: "local"

@@ -3,3 +3,7 @@
 /data
 .env
 payment.env
+
+deployment/builds/*
+deployment/docker-compose.deploy.template.yml
+deployment/payment.env.deploy.template

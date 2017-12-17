@@ -1,9 +1,9 @@
 #### Start
-copy env files:
+copy env files and update credentials:
 ```sh
-$ bin/init.sh
+$ deployment/init.sh
 ```
-Run containers (composer install + migrate include):
+Run docker-compose (composer install + migrate include):
 ```sh
-$ bin/start.sh
+$ deployment/deploy.sh
 ```
