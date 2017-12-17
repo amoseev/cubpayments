@@ -4,7 +4,7 @@ cd $(dirname $0)/../
 cub_dir=$(pwd)
 deploy_dir=$cub_dir/deployment
 
-git reset --hard && git checkout master && git pull
+#git reset --hard && git pull
 
 last_build=0 #номер билда
 for f in $deploy_dir/builds/*; do

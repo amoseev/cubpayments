@@ -54,6 +54,7 @@ services:
       - php-fpm
     volumes:
       - <cub_dir>/logs/nginx:/var/log/nginx/payment:rw
+      - <cub_dir>/data/nginx:/etc/nginx/external:rw
     networks:
       - backend
 
